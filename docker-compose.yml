@@ -1,0 +1,25 @@
+version: '3.1'
+
+services:
+  web:
+    build: .
+    command: python mb_api.py
+    volumes:
+      - .:/mbapi
+    ports:
+      - 5000:5000
+    environment:
+      DB_USERNAME: postgres
+      DB_PASSWORD: password123
+      DB_HOST: db
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: assignment
+    volumes:
+      - ./assignment.sql:/docker-entrypoint-initdb.d/assignment.sql
